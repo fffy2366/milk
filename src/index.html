@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv=Content-Type content="text/html;charset=utf-8">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=3, minimum-scale=1, user-scalable=no">
+	<title>宝宝喂奶记录</title>
+
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+
+<style type="text/css">
+[v-cloak] {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+		<div class="col">
+			<center>
+				<button class="btn btn-primary" id="saveBtn">记录喂奶时间</button>
+			</center>
+		</div>
+	</div>  
+  <div class="row" id="msg" v-cloak>
+		<div class="col list">
+			<center>
+			<ul class="list-unstyled">
+				<li v-for="w in list">{{w}}</li>
+			</ul>
+		</center>
+		</div>
+	</div>
+	
+</div>
+
+
+<div class="container" id="container" >
+	<div class="row justify-content-center">
+		<div class="col"></div>
+		<div class="col">
+    	<!-- <embed width="640" height="360" allownetworking="all" allowscriptaccess="always" src="https://staticlive.douyucdn.cn/common/share/play.swf?room_id=593076" quality="high" bgcolor="#000" wmode="window" allowfullscreen="true" allowFullScreenInteractive="true" type="application/x-shockwave-flash"> -->
+    	</div>
+    	<div class="col"></div>
+    </div>
+    <div>
+    	<!-- <select id="pageSize" v-cloak>
+    		<option v-for="(p,key) in pageSize" :value="key" v-html="p"></option>
+    	</select> -->
+    </div>
+</div>
+
+	<script src="./js/jquery-latest.js"></script>
+	<script src="./js/vue.js"></script>
+<script type="text/javascript">
+var msg = new Vue({
+  el: '#msg',
+  data: {
+    list: []
+  }
+}) ;
+var container = new Vue({
+  el: '#container',
+  data: {
+    pageSize: {
+    	"5":"条数",
+    	"10":"10",
+    	"20":"20",
+    	"30":"30",
+    	"100":"100",
+    }
+  }
+}) ;
+var getmsg = function(){
+	var pageSize = $("#pageSize").val() ;
+	pageSize = 10;
+	$.post("./action.php?action=list",{pageSize:pageSize},function(data){
+		//console.log(data) ;
+		var w = "<ul>" ;
+		var obj = eval("("+data+")") ;
+		msg.list = obj.list ;
+		
+	}) ;
+}
+var savemsg = function(){
+	$.get("./action.php?action=save",function(data){
+		getmsg();
+	}) ;
+}
+getmsg() ;
+$(function(){
+	$('#saveBtn').click(function(){
+		savemsg();
+	});
+});
+</script>
+</body>
+</html>
+

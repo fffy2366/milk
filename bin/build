@@ -1,0 +1,14 @@
+#!/bin/bash
+[ -z "$1" ] && echo "Please specify a CLI command (ex. ls)" && exit
+
+if [ "$1" == "nginx" ]; then
+  cd ./images/nginx/1.13/
+  ls
+  docker build -t milk/nginx:v1.0 .
+fi
+
+if [ "$1" == "php" ]; then
+  cd ./images/php/7.2/
+  ls
+  docker build -t milk/php-fpm:v1.0 .
+fi
