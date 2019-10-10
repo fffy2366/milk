@@ -16,7 +16,7 @@ bin/build nginx
 bin/build php
 ```
 
-### 运行部署代码 
+### 运行部署代码
 ```
 bin/start
 

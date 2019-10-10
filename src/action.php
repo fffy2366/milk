@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('PRC');
 class Milk{
 	public $redis ;
 	public $name = "ziqing" ;

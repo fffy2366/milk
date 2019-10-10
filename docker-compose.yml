@@ -7,12 +7,12 @@ services:
   app:
     image: milk/nginx:v1.0
     ports:
-      - "81:8000"
+      - "88:8000"
     links:
       - redis
       - phpfpm
     volumes: &appvolumes
-      - ~/.composer:/var/www/.composer:delegated
+      - ~/.composer:/var/www/.composer
       - appdata:/var/www/html
       - sockdata:/sock
 
