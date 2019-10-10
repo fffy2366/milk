@@ -32,18 +32,19 @@ class Milk{
 				continue ;
 			}
 			$created_at = "[".$msg['created_at']."]" ;
-			$msg_arr[] = $created_at ;
+			$minute = $msg['minute'] ?? "10";
+			$msg_arr[] = "吃了" . $minute ."分钟 ". $created_at ;
 		}
 		return $msg_arr ;
 
 	}
 
-	public function save(){
+	public function save($minute){
 		$created_at = date('Y-m-d H:i:s');
 		$uuid = $this->UUID();
 
 		$this->redis->zadd($this->set_key.":".$this->name,  time(), $uuid);
-		$this->redis->hset($this->hash_key.":".$this->name, $uuid, json_encode(['created_at' => $created_at]));
+		$this->redis->hset($this->hash_key.":".$this->name, $uuid, json_encode(['minute' => $minute, 'created_at' => $created_at]));
 		return $uuid;
 	}
 
@@ -70,7 +71,8 @@ switch($action){
 		echo json_encode(["list"=>$list]) ;
 		break;
 	case 'save':
-		$result = $milk->save();
+		$minute = $_POST['minute'] ?? 10;
+		$result = $milk->save($minute);
 		echo $result;
 		break;
 	default:

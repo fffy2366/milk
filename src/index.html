@@ -22,7 +22,16 @@
   <div class="row">
 		<div class="col">
 			<center>
-				<button class="btn btn-primary" id="saveBtn">记录喂奶时间</button>
+				<form>
+						<div class="form-group">
+							<label class="sr-only" for="eatMinute">吃了</label>
+							<div class="input-group custom-control-inline">
+								<input type="text" class="form-control" id="minute" placeholder="minute">
+								<div class="input-group-addon">min</div>
+							</div>
+						</div>
+						<button type="button" class="btn btn-primary custom-control-inline" id="saveBtn">记录喂奶时间</button>
+					</form>
 			</center>
 		</div>
 	</div>  
@@ -87,7 +96,12 @@ var getmsg = function(){
 	}) ;
 }
 var savemsg = function(){
-	$.get("./action.php?action=save",function(data){
+	var minute = $("#minute").val();
+	if(!minute || isNaN(minute)){
+		alert('输入喂奶时长');
+		return;
+	}
+	$.post("./action.php?action=save",{minute:minute},function(data){
 		getmsg();
 	}) ;
 }
