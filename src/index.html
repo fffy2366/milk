@@ -109,6 +109,7 @@ var savemsg = function(){
 	}
 	$.post("./action.php?action=save",{minute:minute},function(data){
 		getmsg();
+		$("#minute").val('');
 	}) ;
 }
 getmsg() ;
