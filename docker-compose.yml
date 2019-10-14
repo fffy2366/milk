@@ -11,6 +11,8 @@ services:
     links:
       - redis
       - phpfpm
+    networks:
+      - milk-net  
     volumes: &appvolumes
       - ~/.composer:/var/www/.composer
       - appdata:/var/www/html
@@ -20,6 +22,8 @@ services:
     image: milk/php-fpm:v1.0
     links:
       - redis
+    networks:
+      - milk-net
     volumes: *appvolumes
 
   redis:
@@ -27,8 +31,12 @@ services:
     command: ["redis-server", "--appendonly", "yes"]
     ports:
       - "6380:6379"
+    networks:
+      - milk-net
     volumes:
       - redisdata:/data
+networks:
+  milk-net:
 volumes:
   appdata:
   redisdata:
